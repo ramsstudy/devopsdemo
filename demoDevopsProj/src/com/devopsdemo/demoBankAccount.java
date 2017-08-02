@@ -27,7 +27,7 @@ public class demoBankAccount {
 		
 		demoBankAccount db = new demoBankAccount(100.00);
 		double approvedDebit = db.debit(100);
-		System.out.println("Approved Debit amount is  : " + approvedDebit);
+		System.out.println("Approved Debit amount is =  : " + approvedDebit);
 		
 	}
 	
