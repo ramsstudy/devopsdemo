@@ -1,0 +1,47 @@
+<project name="HelloWorld">
+    <property name="main.src.dir" 		value="/var/lib/jenkins/workspace/Test_job_2_compile_local_java_pgm_from_github/demoDevopsProj/src/com/devopsdemo"/>
+    <property name="test.src.dir" 		value="/var/lib/jenkins/workspace/Test_job_2_compile_local_java_pgm_from_github/demoDevopsProj/src/com/devopsdemo"/>
+    <property name="main.build.dir"     value="/var/lib/jenkins/workspace/Test_job_2_compile_local_java_pgm_from_github/demoDevopsProj/build"/>
+    <property name="test.build.dir"     value="/var/lib/jenkins/workspace/Test_job_2_compile_local_java_pgm_from_github/demoDevopsProj/build"/>
+	<property name="test.report.dir"    value="/var/lib/jenkins/workspace/Test_job_2_compile_local_java_pgm_from_github/demoDevopsProj/build"/>
+	
+<path id="classpath.test">
+	<pathelement location="/usr/share/java/junit-4.11.jar"/>
+	<pathelement location="/usr/share/java/hamcrest-core-1.3.jar"/>
+	<pathelement location="${main.build.dir}"/>	
+</path>	
+
+<target name="Clean">
+        <delete dir="${main.build.dir}"/>
+</target>
+
+<target name="Create" depends="Clean">
+       <mkdir dir="${main.build.dir}"/>
+</target>
+
+<target name="Compile" depends="Create">
+	<javac srcdir="${main.src.dir}" destdir="${main.build.dir}" includeantruntime="false>
+	</javac>
+</target>
+
+<target name="Test-compile" depends="Compile">
+	<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeantruntime="false>
+	<classpath refid="classpath.test"/>
+	</javac>
+</target>	
+
+<target name="Junit-test" depends="Test-compile">
+	  <junit printsummary="on" haltonfailure="yes" fork="true">
+	  	  <classpath>
+		  	  <path refid="classpath.test"/>
+			    <pathelement location="${test.build.dir}"/>
+		    </classpath>
+		
+        <formatter type="xml"/>
+				
+        <batchtest todir="{test.report.dir}">
+			    <fileset dir="{test.src.dir}" includes="**/*.java" />
+		    </batchtest>
+		</junit>
+  </target>  
+</project>
